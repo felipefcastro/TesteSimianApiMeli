@@ -74,7 +74,7 @@ public class SimianService {
 						diagonal += dna[i + 3].charAt(j + 3);
 						String subDiagonal = diagonal.replace(String.valueOf(gen), "");
 						if (subDiagonal.length() == 0) {
-							return isSimian = true;
+							isSimian = true;
 						}
 					}
 					char gen = dna[i].charAt(j);
@@ -85,7 +85,7 @@ public class SimianService {
 					vertical += dna[i + 3].charAt(j);
 					String subVertical = vertical.replace(String.valueOf(gen), "");
 					if (subVertical.length() == 0) {
-						return isSimian = true;
+						isSimian = true;
 					}
 				}
 				if (j < tamanhoArray - 3) {
@@ -97,7 +97,7 @@ public class SimianService {
 					horizontal += dna[i].charAt(j + 3);
 					String subHorizonal = horizontal.replace(String.valueOf(gen), "");
 					if (subHorizonal.length() == 0) {
-						return isSimian = true;
+						isSimian = true;
 					}
 				}
 			}
