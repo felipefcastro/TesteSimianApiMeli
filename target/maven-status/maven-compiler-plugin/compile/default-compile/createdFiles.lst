@@ -1,0 +1,10 @@
+br/com/meli/domain/model/Simian.class
+br/com/meli/domain/model/Stats$StatsBuilder.class
+br/com/meli/domain/exception/DnaNaoPermitidoException.class
+br/com/meli/domain/model/Stats.class
+br/com/meli/domain/exception/DnaUtilizadoException.class
+br/com/meli/api/controller/SimianController.class
+br/com/meli/domain/service/SimianService.class
+br/com/meli/domain/dto/SimianDto.class
+br/com/meli/SimianApiApplication.class
+br/com/meli/domain/repository/SimianRepository.class
