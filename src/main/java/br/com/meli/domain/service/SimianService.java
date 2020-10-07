@@ -1,6 +1,7 @@
 package br.com.meli.domain.service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -145,7 +146,7 @@ public class SimianService {
 			 humanDna = new BigDecimal(1);
 		 }
 		 
-		 return mutantDna.divide(humanDna);
+		 return mutantDna.divide(humanDna, 2, RoundingMode.HALF_UP);
 	 }
 
 	
