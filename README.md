@@ -8,7 +8,7 @@ REST API criada para atender o teste aplicado pelo Mercado Livre.
 * Maven
 * Lombok
 * Elastic Beanstalk - AWS
-* RDS Mysql Darabase - AWS
+* RDS Mysql Database - AWS
 
 # Endpoints criados 
 * /simian - POST
