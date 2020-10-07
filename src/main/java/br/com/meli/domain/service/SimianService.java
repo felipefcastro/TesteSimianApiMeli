@@ -59,45 +59,45 @@ public class SimianService {
 
 		validarDnaRecebido(dna);
 
-		String diagonal = "";
-		String vertical = "";
-		String horizontal = "";
-		int tamanho = dna.length;
+		int tamanhoArray = dna.length;
 		boolean isSimian = false;
 
-		for (int i = 0; i < tamanho; i++) {
-			for (int j = 0; j < tamanho; j++) {
-				if (i < tamanho - 3) {
-					if (j < tamanho - 3) {
+		for (int i = 0; i < tamanhoArray; i++) {
+			for (int j = 0; j < tamanhoArray; j++) {
+				if (i < tamanhoArray - 3) {
+					if (j < tamanhoArray - 3) {
 						char gen = dna[i].charAt(j);
+						String diagonal = "";
 						diagonal += gen;
 						diagonal += dna[i + 1].charAt(j + 1);
 						diagonal += dna[i + 2].charAt(j + 2);
 						diagonal += dna[i + 3].charAt(j + 3);
 						String subDiagonal = diagonal.replace(String.valueOf(gen), "");
 						if (subDiagonal.length() == 0) {
-							isSimian = true;
+							return isSimian = true;
 						}
 					}
 					char gen = dna[i].charAt(j);
+					String vertical = "";
 					vertical += gen;
 					vertical += dna[i + 1].charAt(j);
 					vertical += dna[i + 2].charAt(j);
 					vertical += dna[i + 3].charAt(j);
 					String subVertical = vertical.replace(String.valueOf(gen), "");
 					if (subVertical.length() == 0) {
-						isSimian = true;
+						return isSimian = true;
 					}
 				}
-				if (j < tamanho - 3) {
+				if (j < tamanhoArray - 3) {
 					char gen = dna[i].charAt(j);
+					String horizontal = "";
 					horizontal += gen;
 					horizontal += dna[i].charAt(j + 1);
 					horizontal += dna[i].charAt(j + 2);
 					horizontal += dna[i].charAt(j + 3);
 					String subHorizonal = horizontal.replace(String.valueOf(gen), "");
 					if (subHorizonal.length() == 0) {
-						isSimian = true;
+						return isSimian = true;
 					}
 				}
 			}
