@@ -2,6 +2,7 @@ package br.com.meli.domain.service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,7 +20,7 @@ import br.com.meli.domain.repository.SimianRepository;
 public class SimianService {
 
 	public static final String ALLOWED_LETTERS = "[^A,T,G,C]";
-	
+
 	@Autowired
 	private SimianRepository simianRepository;
 
@@ -40,9 +41,9 @@ public class SimianService {
 		String sequenciaDna = "";
 
 		for (int i = 0; i < dna.length; i++) {
-			if(sequenciaDna.equals("")) {
-				sequenciaDna += dna[i];	
-			}else {
+			if (sequenciaDna.equals("")) {
+				sequenciaDna += dna[i];
+			} else {
 				sequenciaDna += "," + dna[i];
 			}
 		}
@@ -54,9 +55,8 @@ public class SimianService {
 		salvar(simian);
 	}
 
-
 	public Boolean isSimian(String[] dna) {
-		
+
 		validarDnaRecebido(dna);
 
 		String diagonal = "";
@@ -107,47 +107,48 @@ public class SimianService {
 
 		return isSimian;
 	}
-	
+
 	private void validarDnaRecebido(String[] dna) {
-		if(dna == null || dna.length == 0) {
-        	throw new DnaNaoPermitidoException(String.format(
-					"DNA não pode ser nulo/vazio"));
-        }
 
-        for (int i = 0; i < dna.length ; i++) {
-            if (!valoresValidos(dna[i])){
-            	throw new DnaNaoPermitidoException(String.format(
-    					"DNA não permitido! Favor utilizar apenas as letras: A, T, C e G."));
-            }
-        }
-    }
+		boolean matrizValida = Arrays.stream(dna)
+				.anyMatch(result -> result.length() == dna.length);
+		if (!matrizValida) {
+			throw new DnaNaoPermitidoException(String.format("DNA não é valido! A matriz deve ser quadrada NxN"));
+		}
 
-    public boolean valoresValidos(String sequence) {
-        Pattern pattern = Pattern.compile(ALLOWED_LETTERS);
-        Matcher matcher = pattern.matcher(sequence);
+		if (dna == null || dna.length == 0) {
+			throw new DnaNaoPermitidoException(String.format("DNA não pode ser nulo/vazio!"));
+		}
 
-        return !matcher.find();
-    }
-	
-	 public Stats getStatsReport() {
-	        BigDecimal humanDna = simianRepository.countByIsSimianFalse();
-	        BigDecimal mutantDna = simianRepository.countByIsSimianTrue();
-	        BigDecimal ratio = calculaRatio(humanDna, mutantDna);
+		for (int i = 0; i < dna.length; i++) {
+			if (!valoresValidos(dna[i])) {
+				throw new DnaNaoPermitidoException(
+						String.format("DNA não permitido! Favor utilizar apenas as letras: A, T, C e G."));
+			}
+		}
+	}
 
-	        return Stats.builder()
-	                .count_human_dna(humanDna)
-	                .count_mutant_dna(mutantDna)
-	                .ratio(ratio)
-	                .build();
-	    }
-	 
-	 public BigDecimal calculaRatio(BigDecimal humanDna, BigDecimal mutantDna) {
-		 if(humanDna.equals(BigDecimal.ZERO)) {
-			 humanDna = new BigDecimal(1);
-		 }
-		 
-		 return mutantDna.divide(humanDna, 2, RoundingMode.HALF_UP);
-	 }
+	public boolean valoresValidos(String sequence) {
+		Pattern pattern = Pattern.compile(ALLOWED_LETTERS);
+		Matcher matcher = pattern.matcher(sequence);
 
-	
+		return !matcher.find();
+	}
+
+	public Stats getStatsReport() {
+		BigDecimal humanDna = simianRepository.countByIsSimianFalse();
+		BigDecimal mutantDna = simianRepository.countByIsSimianTrue();
+		BigDecimal ratio = calculaRatio(humanDna, mutantDna);
+
+		return Stats.builder().count_human_dna(humanDna).count_mutant_dna(mutantDna).ratio(ratio).build();
+	}
+
+	public BigDecimal calculaRatio(BigDecimal humanDna, BigDecimal mutantDna) {
+		if (humanDna.equals(BigDecimal.ZERO)) {
+			humanDna = new BigDecimal(1);
+		}
+
+		return mutantDna.divide(humanDna, 2, RoundingMode.HALF_UP);
+	}
+
 }
